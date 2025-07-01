@@ -19,5 +19,6 @@
   "homepage": "https://github.com/andre-dev-2021/desafio-itau-backend#readme",
   "dependencies": {
     "express": "^5.1.0"
-  }
+  },
+  "type": "module"
 }
