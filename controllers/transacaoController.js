@@ -1,5 +1,5 @@
 import Transacao from "../models/transacaoModel.js";
-import {registrarTransacao} from '../db/registros.js';
+import {registrarTransacao, deletarTransacoes} from '../db/registros.js';
 
 const criarRegistro = (valor, dataHora) => {
     let transacao = new Transacao(valor, dataHora);
@@ -10,4 +10,8 @@ const criarRegistro = (valor, dataHora) => {
     return status;
 }
 
-export default criarRegistro;
+const apagarRegistros = () => {
+    deletarTransacoes();
+}
+
+export { criarRegistro, apagarRegistros };
