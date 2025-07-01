@@ -4,17 +4,33 @@ class Transacao {
         this.dataHora = dataHora;
     }
 
-    getStatus(){
+    checarFormato(){
         let valor = this.valor;
-        let dataHora = this.dataHora != undefined ? new Date(this.dataHora) : undefined;
-        if(valor === undefined && dataHora === undefined){
+        let dataHora = this.dataHora;
+        
+        // Checa formato da data/hora para ISO 8601
+        const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}-\d{2}:\d{2}$/;
+        if(typeof(valor) == 'number' && regex.test(dataHora)){
+            return true;
+        }
+        return false;
+    }
+
+    getStatus(){
+        if(!this.checarFormato()){
+            // Se requisição for vazia ou estiver fora do formato, retorna 400 Bad Request.
+            console.error('A requisição está no formato incorreto!');
             return 400;
-        }else if(valor < 0 || Date.now() < dataHora.getTime()){
+        }
+        let data = new Date(this.dataHora);
+        if(this.valor < 0 || Date.now() < data.getTime()){
+            // Se valor da transação for negativo ou a data/hora for futura, retorna 422 Unprocessable Entity.
+            console.error('A requisição possui valores inválidos!');
             return 422;
         }
-        this.valor = valor;
-        this.dataHora = dataHora;
-        return 200;
+        // Caso não tiver problemas, retorna 201 Created
+        console.log('Requisição aceita com sucesso!');
+        return 201;
     }
 }
 
