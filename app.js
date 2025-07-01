@@ -1,9 +1,14 @@
-import {criarRegistro, apagarRegistros} from './controllers/transacaoController.js';
+import {listarEstatistica, criarRegistro, apagarRegistros} from './controllers/transacaoController.js';
 import express from 'express';
 const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+
+app.get("/estatistica", (req, res) => {
+    const estatistica = JSON.stringify(listarEstatistica());
+    res.status(200).send(estatistica);
+});
 
 app.post("/transacao", (req, res) => {
     let status = criarRegistro(req.body.valor, req.body.dataHora);

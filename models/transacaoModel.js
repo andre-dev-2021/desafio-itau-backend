@@ -12,6 +12,8 @@ class Transacao {
         }else if(valor < 0 || Date.now() < dataHora.getTime()){
             return 422;
         }
+        this.valor = valor;
+        this.dataHora = dataHora;
         return 200;
     }
 }
